@@ -1,4 +1,5 @@
-## Hi there 👋
+![Баннер](https://raw.githubusercontent.com/theryuzakii/theryuzakii/ba918f14b4ce79b8a028ffbfa5fa15b6dc6bee36/banner_ryuzaki.svg)
+
 
 <!--
 **theryuzakii/theryuzakii** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
