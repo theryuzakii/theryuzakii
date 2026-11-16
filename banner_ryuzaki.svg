@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="260" viewBox="0 0 1000 260" role="img" aria-label="ryuzaki" xmlns:c2pa="http://c2pa.org/manifest">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A0A0A"/>
+      <stop offset="1" stop-color="#111111"/>
+    </linearGradient>
+
+    <radialGradient id="glow" cx="0.72" cy="0.5" r="0.55">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="wm" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF">
+        <animate attributeName="stop-color" values="#FFFFFF;#D0D0D0;#9A9A9A;#FFFFFF" dur="9s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="1" stop-color="#E6E6E6">
+        <animate attributeName="stop-color" values="#E6E6E6;#FFFFFF;#E6E6E6" dur="9s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="rule" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="fadeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset="0.16" stop-color="#FFFFFF"/>
+      <stop offset="0.84" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+
+    <linearGradient id="fadeGradX" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.8" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+
+    <pattern id="grid" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M26 0 H0 V26" fill="none" stroke="#1C1C1C" stroke-width="1"/>
+    </pattern>
+
+    <mask id="fade">
+      <rect x="36" y="42" width="372" height="176" fill="url(#fadeGrad)"/>
+    </mask>
+    <mask id="fadeX">
+      <rect x="36" y="42" width="372" height="176" fill="url(#fadeGradX)"/>
+    </mask>
+
+    <g id="listing" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" xml:space="preserve" style="white-space:pre">
+      <text x="0" y="0" fill="#555555">import os, shutil</text>
+      <text x="0" y="15" fill="#555555">from huggingface_hub import snapshot_download</text>
+      <text x="0" y="45" fill="#555555">HF_TOKEN = "hf_token"</text>
+      <text x="0" y="60" fill="#555555">DATA_REPO = "SatoshiManjoro/OWLv1Set"</text>
+      <text x="0" y="75" fill="#555555">CKPT_REPO = "SatoshiManjoro/MiniManjoro-100M-ckpts"</text>
+      <text x="0" y="105" fill="#555555">if HF_TOKEN == "hf_token" or not HF_TOKEN.startswith("hf_"):</text>
+      <text x="0" y="120" fill="#FFFFFF" opacity="0.7">    raise ValueError("токен вставь")</text>
+      <text x="0" y="150" fill="#555555">DATA_DIR = "/tmp/data"</text>
+      <text x="0" y="165" fill="#555555">if not os.path.exists(f"{DATA_DIR}/train.bin"):</text>
+      <text x="0" y="180" fill="#555555">    print("качаю датасет...")</text>
+      <text x="0" y="195" fill="#555555">    os.makedirs(DATA_DIR, exist_ok=True)</text>
+      <text x="0" y="210" fill="#FFFFFF" opacity="0.7">    snapshot_download(repo_id=DATA_REPO, repo_type="dataset", local_dir=DATA_DIR, token=HF_TOKEN)</text>
+      <text x="0" y="240" fill="#555555">if not os.path.exists("/kaggle/working/RWKV-LM"):</text>
+      <text x="0" y="255" fill="#FFFFFF" opacity="0.7">    !git clone --depth 1 https://github.com/BlinkDL/RWKV-LM.git /kaggle/working/RWKV-LM</text>
+      <text x="0" y="285" fill="#555555">cuda_fp16 = "/kaggle/working/cuda_fp16"</text>
+      <text x="0" y="300" fill="#555555">if not os.path.exists(cuda_fp16):</text>
+      <text x="0" y="315" fill="#FFFFFF" opacity="0.7">    shutil.copytree("/kaggle/working/RWKV-LM/RWKV-v7/train_temp/cuda", cuda_fp16, dirs_exist_ok=True)</text>
+      <text x="0" y="330" fill="#555555">    for fname in ["rwkv7_clampw.cu", "rwkv7_clampw.cpp"]:</text>
+      <text x="0" y="345" fill="#555555">        fpath = os.path.join(cuda_fp16, fname)</text>
+      <text x="0" y="360" fill="#555555">        with open(fpath, "r", encoding="utf-8") as f:</text>
+      <text x="0" y="375" fill="#555555">            code = f.read()</text>
+      <text x="0" y="390" fill="#555555">        code = (code.replace("cuda_bf16.h", "cuda_fp16.h")</text>
+      <text x="0" y="405" fill="#555555">                    .replace("__nv_bfloat16", "__half")</text>
+      <text x="0" y="420" fill="#555555">                    .replace("__bfloat162float", "__half2float")</text>
+      <text x="0" y="435" fill="#555555">                    .replace("__float2bfloat16_rn", "__float2half_rn")</text>
+      <text x="0" y="450" fill="#555555">                    .replace("__float2bfloat16", "__float2half")</text>
+      <text x="0" y="465" fill="#555555">                    .replace("at::BFloat16", "at::Half")</text>
+      <text x="0" y="480" fill="#555555">                    .replace("torch::kBFloat16", "torch::kHalf"))</text>
+      <text x="0" y="495" fill="#555555">        with open(fpath, "w", encoding="utf-8") as f:</text>
+      <text x="0" y="510" fill="#555555">            f.write(code)</text>
+      <text x="0" y="540" fill="#FFFFFF" opacity="0.7">train_code = '''import os</text>
+      <text x="0" y="555" fill="#555555">os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"</text>
+      <text x="0" y="570" fill="#555555">os.environ["TORCH_CUDA_ARCH_LIST"] = "7.5"</text>
+      <text x="0" y="600" fill="#555555">import sys, time, math, datetime</text>
+      <text x="0" y="615" fill="#555555">import numpy as np</text>
+      <text x="0" y="630" fill="#555555">import torch</text>
+      <text x="0" y="645" fill="#555555">import torch.nn as nn</text>
+      <text x="0" y="660" fill="#555555">import torch.nn.functional as F</text>
+      <text x="0" y="675" fill="#555555">import torch.distributed as dist</text>
+      <text x="0" y="690" fill="#555555">from torch.nn.parallel import DistributedDataParallel as DDP</text>
+      <text x="0" y="705" fill="#FFFFFF" opacity="0.7">from torch.utils.cpp_extension import load</text>
+      <text x="0" y="720" fill="#555555">from tokenizers import Tokenizer</text>
+      <text x="0" y="735" fill="#555555">from huggingface_hub import HfApi</text>
+      <text x="0" y="765" fill="#555555">HF_TOKEN = "__HF_TOKEN__"</text>
+      <text x="0" y="780" fill="#555555">CKPT_REPO = "__CKPT_REPO__"</text>
+      <text x="0" y="810" fill="#555555">DATA_DIR = "/tmp/data"</text>
+      <text x="0" y="825" fill="#555555">CKPT_DIR = "/kaggle/working/checkpoints"</text>
+      <text x="0" y="840" fill="#555555">os.makedirs(CKPT_DIR, exist_ok=True)</text>
+    </g>
+  </defs>
+
+  <rect x="1" y="1" width="998" height="258" rx="18" fill="url(#bg)" stroke="#262626"/>
+  <rect x="1" y="1" width="998" height="258" rx="18" fill="url(#grid)" opacity="0.55"/>
+  <rect x="1" y="1" width="998" height="258" rx="18" fill="url(#glow)"/>
+
+  <g mask="url(#fade)">
+    <g mask="url(#fadeX)">
+      <g transform="translate(36 56)">
+        <g>
+          <use href="#listing" xlink:href="#listing" x="0" y="0"/>
+          <use href="#listing" xlink:href="#listing" x="0" y="900"/>
+          <animateTransform attributeName="transform" type="translate" from="0 0" to="0 -900" dur="56s" repeatCount="indefinite"/>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <rect x="440" y="52" width="1" height="156" fill="url(#rule)"/>
+
+  <g transform="translate(486 0)">
+    <text x="0" y="104" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="46" font-weight="700" letter-spacing="7" fill="url(#wm)">RYUZAKI</text>
+    <text x="3" y="134" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" letter-spacing="3.6" fill="#8A8A8A">PYTORCH  /  RWKV-7  /  ML ENGINEERING</text>
+
+    <text x="3" y="180" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14" fill="#FFFFFF">// TODO:</text>
+    <rect x="66" y="169" width="8" height="14" fill="#FFFFFF">
+      <animate attributeName="opacity" values="1;1;0;0" dur="1.1s" repeatCount="indefinite"/>
+    </rect>
+
+    <text x="3" y="208" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" letter-spacing="0.8" fill="#666666">https://github.com/theryuzakii   |   https://t.me/RyuzakiLife</text>
+  </g>
+
+  <g transform="translate(902 46)">
+    <circle cx="0" cy="0" r="3.5" fill="#FFFFFF">
+      <animate attributeName="opacity" values="0.25;1;0.25" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="16" cy="0" r="3.5" fill="#FFFFFF">
+      <animate attributeName="opacity" values="0.25;1;0.25" dur="2.4s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="32" cy="0" r="3.5" fill="#FFFFFF">
+      <animate attributeName="opacity" values="0.25;1;0.25" dur="2.4s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <g transform="translate(36 232)">
+    <rect x="0" y="0" width="928" height="1" fill="#262626"/>
+    <rect x="0" y="-1" width="200" height="3" rx="1.5" fill="url(#sweep)">
+      <animateTransform attributeName="transform" type="translate" values="0 0;728 0;0 0" dur="7s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTpjNmM4NjNhMy1lNWUzLTQ2ZDAtYmJlYy00OTQzYTU5M2MyYTUAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaBcQeY22kCAVq0mSmMJsfXEAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDoxYmRiYzkyMC04MDJmLTQyZjgtODIzYi1jNzE5NjQ4YzFmMjFscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNow/OtGNSJ0AdzOklcjNGE4wAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggwOChBNOol6yt29ThsTmhlwzW2fSHS2wrZxlRniVZo9mkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaAa5ZaUPB9Apd8LvTkfvdHAAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYINckKDyZHtHW/9BCEuQpFMG+8Az+hJa8YORGLLXzrLi7ZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GSYgZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmM2Yzg2M2EzLWU1ZTMtNDZkMC1iYmVjLTQ5NDNhNTkzYzJhNS9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjBmY2UxZjgwLThjMWQtNGI1Mi1iZDdmLWI1ZDQ0ZjliNjRmY3JjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCDA4KEE06iXrK3b1OGxOaGXDNbZ9IdLbCtnGVGeJVmj2aJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggWQsUzQAYgV1cLX8MPxw5Vr4IDthiHGO10iXd1vztBz2iY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggvekibE1zAlHDmtArgFrOfzCEHpwruYBDaRxQ++tzuCd0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQBnH73m3FQtvGjYedvc7Vay5yCk6czuUmzGts+UYdHHrBpNia4o8nisobIOrgazikR/fXyXn+dyazt5Nfj3fM6w=</c2pa:manifest></metadata></svg>
